@@ -26,10 +26,10 @@ var questions = [
     },
 
 ];
-
+// global variables
 var score = 0;
-var timer = 0;
-var interval = "";
+var secsLeft = 75;
+var interval = 0;
 var qIndex = 0;
 
 var startQuiz = document.querySelector("#startquiz");
@@ -37,14 +37,14 @@ var finalScore = document.querySelector("#finalscore");
 var questionDiv = document.querySelector("#questions");
 var endGameDiv = document.querySelector("#endGameBtns");
 
+// function to start the quiz
 function start() {
     startQuiz.style.display = "none";
-
-    var timeleft = 5;
+    // quiz timer
     var interval = setInterval(function () {
-        timeleft--;
-        document.getElementById("timeleft").innerHTML = timeleft;
-        if (timeleft === 0) {
+        secsLeft--;
+        document.getElementById("timeleft").innerHTML = secsLeft;
+        if (secsLeft <= 0) {
             clearInterval(interval);
             alert("You're out of time!");
             stopGame();
@@ -53,66 +53,106 @@ function start() {
 
     showQuiz();
 };
-
+//  function to display questions and button to make choice
 function showQuiz() {
 
     questionDiv.innerHTML = "";
 
-    //1 make html!!
-    var h = document.createElement("H1"); // Create the H1 element 
-    // dres sit up how u want class names text ect..
-    var t = document.createTextNode(questions[qIndex].question); // Create a text element 
+    // creates h1 element
+    var h = document.createElement("H1"); 
+    // creates text  for questions
+    var t = document.createTextNode(questions[qIndex].question);  
     h.appendChild(t); // Append the text node to the H1 element 
 
-    //stick it on the page!
+    // stick it on the page!
     questionDiv.appendChild(h);
-
+    // for loop
     for (let i = 0; i < questions[qIndex].options.length; i++) {
-    
-        var button = document.createElement("button"); // Create the H1 element 
-        // dres sit up how u want class names text ect..
+    // creates button
+        var button = document.createElement("button"); 
+        // creates option buttons
         var buttonText = document.createTextNode(questions[qIndex].options[i]);
-        button.appendChild(buttonText); // Append the text node to the H1 element 
+        button.appendChild(buttonText); 
         button.addEventListener("click", pickChoice);
 
         //stick it on the page!
         questionDiv.appendChild(button);
-    
+
     }
 }
-
+// funciton to check choices made by user
 function pickChoice(event) {
-    //console.log('We got clicked!!', event.target.innerHTML)
-    if (event.target.innerHTML === questions[0].answer) {
+    
+    if (event.target.innerHTML === questions[qIndex].answer) {
         score++;
         alert("Correct!");
     }
     else {
+        secsLeft -= 10;
+        console.log();
         alert("Wrong!");
     }
-    qIndex++
+    qIndex++;
 
     if (qIndex > questions.length - 1) {
-        alert("gameover");
         stopGame()
 
     } else {
         showQuiz()
     }
 };
-
+// function to end the game
 var stopGame = function () {
     questionDiv.innerHTML = "";
-    clearInterval(timer);
+    clearInterval(interval);
     finalScore.style.display = "block";
-    
+    // creates h1 element
+    var h = document.createElement("H2"); 
+    // creates text to show final score
+    var t = document.createTextNode(' Your final score is: ' + secsLeft); 
+    h.appendChild(t); // Append the text node to the H1 element 
+
+    finalScore.appendChild(h)
+    // creates label to input users name or intials
+    var createLabel = document.createElement("label");
+    createLabel.setAttribute("id", "createLabel");
+    createLabel.textContent = "Enter your initials: ";
+
+    finalScore.appendChild(createLabel);
+    // creates input box
+    var createInput = document.createElement("input");
+    createInput.setAttribute("type", "text");
+    createInput.setAttribute("id", "initials");
+    createInput.textContent = "";
+
+    finalScore.appendChild(createInput);
+    // creates submit button
+    var createSubmit = document.createElement("button");
+    createSubmit.setAttribute("type", "submit");
+    createSubmit.setAttribute("id", "Submit");
+    createSubmit.textContent = "Submit";
+
+    finalScore.appendChild(createSubmit);
+    // adds event listener to submit button
+    createSubmit.addEventListener("click", function () {
+        var intials = createInput.value;
+
+        if (!intials) {
+            alert("Nothing Entered!");
+        }
+        else {
+            var highScore = {
+                intials: intials,
+                score: secsLeft
+            }
+            endGameDiv();
+        }
+    })
 };
 
-function endGameDiv () {
-
+function endGameDiv() {
+    
 }
-
-
 
 
 

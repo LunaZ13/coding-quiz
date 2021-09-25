@@ -7,17 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coding Quiz</title>
     <link rel="stylesheet" a href="style.css">
-
 </head>
 
 <body>
     <header class="header">
         <div>
-            <button onclick="highScore()">View High Scores</button>
+            <button onclick="highScores()">View High Scores</button>
         </div>
 
         <div>
-            <nav class="timer">Time: <span id="timeleft">0</span></nav>
+            <nav class="timer">Time: <span id="timeleft">75</span></nav>
         </div>
     </header>
 
@@ -33,21 +32,12 @@
             </div>
 
             <div id="questions"></div>
-            
-            <div id="finalscore" style="display: none;">
-                <h2>Your final score is:</h2>
-                <form>
-                    <label type="text">Enter Initials:</label>
-                    <input placeholder="Enter Initials Here">
-                    <button onclick="submit()">Submit</button>
-                </form>
-            </div>
 
-            </div>
+            <div id="finalscore" style="display: none;"></div>
 
             <div id="endGameBtns" style="display: none;">
-                <button id="playagain">Play Again</button>
-                <button id="clearscore">Clear High Score</button>
+                <button onclick="restart()">Play Again</button>
+                <button onclick="clearScores()">Clear High Score</button>
             </div>
         </section>
     </main>

@@ -36,6 +36,7 @@ var startQuiz = document.querySelector("#startquiz");
 var finalScore = document.querySelector("#finalscore");
 var questionDiv = document.querySelector("#questions");
 var endGameDiv = document.querySelector("#endGameBtns");
+var highScoreDiv = document.querySelector("highscorediv")
 
 // function to start the quiz
 function start() {
@@ -126,6 +127,7 @@ var stopGame = function () {
     createInput.textContent = "";
 
     finalScore.appendChild(createInput);
+    
     // creates submit button
     var createSubmit = document.createElement("button");
     createSubmit.setAttribute("type", "submit");
@@ -141,20 +143,53 @@ var stopGame = function () {
             alert("Nothing Entered!");
         }
         else {
-            var highScore = {
+            var finalScore = {
                 intials: intials,
                 score: secsLeft
             }
-            endGameDiv();
+            var savedScores = localStorage.getItem("savedScores");
+            if (!savedScores) {
+                savedScores = [];
+            }
+            else {
+                savedScores = JSON.parse(savedScores);
+                
+                savedScores.push(finalScore);
+                var currentScore = JSON.stringify(savedScores);
+                localStorage.setItem("savedScores", currentScore);
+            }
         }
     })
 };
 
-function endGameDiv() {
-    
+var highScoreDiv = function () {
+    var h = document.createElement("H2"); 
+    // creates text to show final score
+    var t = document.createTextNode("High Scores"); 
+    h.appendChild(t); // Append the text node to the H1 element 
+
+    highScoreDiv.appendChild(h)
+    // creates label to input users name or intials
+    var createList = document.createElement("list");
+    createLabel.setAttribute("id", "createList");
+
+    highScoreDiv.appendChild(createList);
+};
+
+function highScores () {
+    startQuiz.style.display = "none";
+    endGameDiv.style.display = "block";
+    highScoreDiv.style.display = "block";
 }
 
+restart.addEventListener("click", function() {
+    startQuiz.style.display = "block";
+});
 
+clearScores.addEventListener("click", function(){
+    window.localStorage.removeItem("savedScores");
+    highScoreDiv.innerHTML = "Scores Cleared!"
+})
 
 
 

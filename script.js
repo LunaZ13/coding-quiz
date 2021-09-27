@@ -36,13 +36,16 @@ var startQuiz = document.querySelector("#startquiz");
 var finalScore = document.querySelector("#finalscore");
 var questionDiv = document.querySelector("#questions");
 var endGameDiv = document.querySelector("#endGameBtns");
-var highScoreDiv = document.querySelector("highscorediv")
+var highScoreDiv = document.querySelector("#highscorediv")
 
 // function to start the quiz
 function start() {
     startQuiz.style.display = "none";
+    qIndex = 0
+    secsLeft = 75
+
     // quiz timer
-    var interval = setInterval(function () {
+    interval = setInterval(function () {
         secsLeft--;
         document.getElementById("timeleft").innerHTML = secsLeft;
         if (secsLeft <= 0) {
@@ -51,7 +54,6 @@ function start() {
             stopGame();
         }
     }, 1000);
-
     showQuiz();
 };
 //  function to display questions and button to make choice
@@ -65,7 +67,7 @@ function showQuiz() {
     var t = document.createTextNode(questions[qIndex].question);  
     h.appendChild(t); // Append the text node to the H1 element 
 
-    // stick it on the page!
+    // creates question div
     questionDiv.appendChild(h);
     // for loop
     for (let i = 0; i < questions[qIndex].options.length; i++) {
@@ -78,12 +80,10 @@ function showQuiz() {
 
         //stick it on the page!
         questionDiv.appendChild(button);
-
     }
-}
+};
 // funciton to check choices made by user
 function pickChoice(event) {
-    
     if (event.target.innerHTML === questions[qIndex].answer) {
         score++;
         alert("Correct!");
@@ -106,7 +106,9 @@ function pickChoice(event) {
 var stopGame = function () {
     questionDiv.innerHTML = "";
     clearInterval(interval);
+    finalScore.innerHTML = ''
     finalScore.style.display = "block";
+
     // creates h1 element
     var h = document.createElement("H2"); 
     // creates text to show final score
@@ -138,7 +140,7 @@ var stopGame = function () {
     // adds event listener to submit button
     createSubmit.addEventListener("click", function () {
         var intials = createInput.value;
-
+        // if else statement to validate and save data
         if (!intials) {
             alert("Nothing Entered!");
         }
@@ -147,49 +149,84 @@ var stopGame = function () {
                 intials: intials,
                 score: secsLeft
             }
+            console.log('FInal score', finalScore)
             var savedScores = localStorage.getItem("savedScores");
+            console.log('saved Scores', savedScores)
+
+            if(savedScores) {
+                savedScores = JSON.parse(savedScores);
+            }
             if (!savedScores) {
                 savedScores = [];
             }
-            else {
-                savedScores = JSON.parse(savedScores);
-                
-                savedScores.push(finalScore);
-                var currentScore = JSON.stringify(savedScores);
-                localStorage.setItem("savedScores", currentScore);
-            }
+            console.log('Saved score from local storage!', savedScores)
+            
+            savedScores.push(finalScore);
+            var currentScore = JSON.stringify(savedScores);
+            console.log('About to set Item local storage', currentScore)
+            localStorage.setItem("savedScores", currentScore);
         }
     })
 };
+// function to show high scores 
+function makeHighScoreDiv() {
+    var savedScores = localStorage.getItem("savedScores");
+    // parse through scores
+    if(savedScores) {
+        savedScores = JSON.parse(savedScores);
+    }
+    if (!savedScores) {
+        savedScores = [];
+    }
+    console.log('all high scores from local storage', savedScores)
 
-var highScoreDiv = function () {
     var h = document.createElement("H2"); 
     // creates text to show final score
     var t = document.createTextNode("High Scores"); 
     h.appendChild(t); // Append the text node to the H1 element 
 
     highScoreDiv.appendChild(h)
-    // creates label to input users name or intials
-    var createList = document.createElement("list");
-    createLabel.setAttribute("id", "createList");
 
-    highScoreDiv.appendChild(createList);
+    // loop through the savedScores
+    for (let i = 0; i < savedScores.length; i++) {
+        console.log("saved scores loop", savedScores[i])
+        
+        var createList = document.createElement("li");
+        var text = document.createTextNode(savedScores[i].intials + " high score is: " + savedScores[i].score); 
+        createList.appendChild(text);
+        
+        highScoreDiv.appendChild(createList);
+    }  
 };
-
+// function for highscores onclick
 function highScores () {
+    clearInterval(interval);
+    questionDiv.innerHTML = ''
+    qIndex = 0
+    document.getElementById("timeleft").innerHTML = 75;
     startQuiz.style.display = "none";
     endGameDiv.style.display = "block";
+    highScoreDiv.innerHTML = ''
     highScoreDiv.style.display = "block";
+    finalScore.style.display = 'none'
+    makeHighScoreDiv()
 }
-
-restart.addEventListener("click", function() {
+// function for restart onclick
+function restart() {
     startQuiz.style.display = "block";
-});
+    endGameDiv.style.display = "none";
+    highScoreDiv.innerHTML = ''
+    highScoreDiv.style.display = "none";
 
-clearScores.addEventListener("click", function(){
+    document.getElementById("timeleft").innerHTML = 75;
+}
+// funciton for clearscores onclick
+function clearScores () {
     window.localStorage.removeItem("savedScores");
     highScoreDiv.innerHTML = "Scores Cleared!"
-})
+}
+
+
 
 
 

@@ -1,18 +1,34 @@
 # coding-quiz
 
 ## Discription: 
-I was tasked with creating a daily planner that diplays the current day at the top. It should display time blocks for standard business hours for the day. The user is then able to create events that are saved and are able to be edited. The blocks are also color coded to show events that are past, present, or future.
+I was tasked with creating a timed quiz from scratch. The quiz should be multiple choice JavaScript fundamentals and should also store high score, so the user can compare to others.
 
 ## Installation:
-Open in browser or click on the following link. https://lunaz13.github.io/work-day-sch/
+Open in browser or click on the following link. https://lunaz13.github.io/coding-quiz/
 
 ## Usage:
 See demo and instructions below.
 
+![Coding Quiz](https://user-images.githubusercontent.com/86627336/134993455-a92119de-ec28-4110-b993-56c10f08edc9.gif)
 
 
+## Instructions:
+1. Click the "Start Quiz" button
+    * The timer will start to run from 75 seconds.
+    * The user will be presented with a series of questions.
 
-Instructions - The user is able to see the day and time displayed at the top of the screen. To start, the user can input text in the text-area box and click on the save button at the far right of the row. If the user wishes to edit the text; they can just click in the text box, make their desired changes, and then click the save button again. The time blocks will also be color coded as time passes. Grey will mean event is past, red will mean event is present, and green will mean event is in the future. 
+2. Questions Section
+    * A series of multiple choice questions will appear.
+    * If the questions is answered incorrectly, 10 seconds will deducted from the timer.
+    * After each question, the user will be alerted if they are "correct" or "wrong".
+
+3. When all questions have been answered or the timer runs out, the game is over.
+
+4. When the game is over, the user's score will be displayed. Then they can input their initials and click "submit" to save their score.
+
+5. The user can then click on the "view high scores" button to view their score and others.
+
+6. The user can then click on the "clear high score" button to clear the saved scores, or click on the "play again" button to restart the quiz.
 
 ## Built With:
 * HTML
@@ -21,7 +37,7 @@ Instructions - The user is able to see the day and time displayed at the top of 
 
 
 ## Credits
-Edited by Inmar Luna :grinning:
+Created by Inmar Luna :grinning:
 
 ## License 
 
